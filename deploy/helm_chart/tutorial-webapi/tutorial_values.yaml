@@ -1,0 +1,12 @@
+global:
+  name: "tutorial-webapi"
+
+deployment:
+  replicas: 2
+  image: "registry.hub.docker.com/nusgang/tutorial-webapi:develop"
+  request_cpu: "200m"
+  limit_cpu: "1000m"
+  memory: "1024Mi"
+
+ingress:
+  host: "tutorial.test-us2.com"

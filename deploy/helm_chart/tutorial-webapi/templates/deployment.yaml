@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.name }}-deployment
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  strategy:
+    type: RollingUpdate
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: {{ .Values.global.name }}
+  template:
+    metadata:
+      name: {{ .Values.global.name }}
+      labels:
+        app: {{ .Values.global.name }}
+    spec:
+      containers:
+      - name: {{ .Values.global.name }}
+        image: {{ .Values.deployment.image }}
+        command: ['npm', 'start']
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: {{ .Values.deployment.request_cpu }}
+            memory: {{ .Values.deployment.memory }}
+          limits:
+            cpu: {{ .Values.deployment.limit_cpu }}
+            memory: {{ .Values.deployment.memory }}
+        volumeMounts:
+          - mountPath: /usr/src/app/logs
+            name: log-volume
+        ports:
+        - containerPort: 8080
+        env:
+          - name: stage
+            value: {{ .Values.global.stage }}
+      imagePullSecrets:
+      - name: regcred
+      volumes:
+        - name: log-volume
+          emptyDir: {}

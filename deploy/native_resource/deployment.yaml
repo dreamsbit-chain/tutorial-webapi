@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tutorial-webapi
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: tutorial-webapi
+  template:
+    metadata:
+      name: tutorial-webapi
+      labels:
+        app: tutorial-webapi
+    spec:
+      containers:
+      - name: tutorial-webapi
+        image: "registry.hub.docker.com/nusgang/tutorial-webapi:develop"
+        command: ['npm','start']
+        ports:
+          - containerPort: 3000

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tutorial-webapi
+spec:
+  containers:
+    - name: tutorial-webapi
+      image: "registry.hub.docker.com/nusgang/tutorial-webapi:develop"
+      command: ['npm','start']
